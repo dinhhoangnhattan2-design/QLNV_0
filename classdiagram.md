@@ -1,69 +1,55 @@
-@startuml HeThongDangKyHocPhan
+```mermaid
+classDiagram
+    direction TB
 
-title Sơ đồ lớp – Hệ thống Đăng ký Học phần
+    class SinhVien {
+        -maSV String
+        -hoTen String
+        -email String
+        +dangKy(lop LopHocPhan) void
+        +huyDangKy(gd GhiDanh) void
+    }
 
-skinparam classAttributeIconSize 0
-skinparam class {
-  BackgroundColor #EAF3FB
-  BorderColor #2D6EA4
-  ArrowColor #2D6EA4
-  FontSize 12
-}
+    class GiangVien {
+        -maGV String
+        -hocVi String
+        +phuTrachLop(lop LopHocPhan) void
+    }
 
-enum TrangThaiGhiDanh {
-  CHO_DUYET
-  DA_DUYET
-  DA_HUY
-}
+    class MonHoc {
+        -maMon String
+        -tenMon String
+        -soTinChi int
+        +themLop() void
+        +xoaLop() void
+    }
 
-class SinhVien {
-  - maSV: String
-  - hoTen: String
-  - email: String
-  --
-  + dangKy(lop: LopHocPhan): void
-  + huyDangKy(gd: GhiDanh): void
-}
+    class LopHocPhan {
+        -maLop String
+        -sucChua int
+        -phongHoc String
+        +kiemTraSucChua() boolean
+        +layDanhSach() List
+    }
 
-class GiangVien {
-  - maGV: String
-  - hocVi: String
-  --
-  + phuTrachLop(lop: LopHocPhan): void
-}
+    class GhiDanh {
+        -ngayDangKy Date
+        -trangThai TrangThaiGhiDanh
+        -diemTongKet Float
+        +capNhatTrangThai() void
+        +nhapDiem(diem Float) void
+    }
 
-class MonHoc {
-  - maMon: String
-  - tenMon: String
-  - soTinChi: int
-  --
-  + themLop(): void
-  + xoaLop(): void
-}
+    class TrangThaiGhiDanh {
+        <<enumeration>>
+        CHO_DUYET
+        DA_DUYET
+        DA_HUY
+    }
 
-class LopHocPhan {
-  - maLop: String
-  - sucChua: int
-  - phongHoc: String
-  --
-  + kiemTraSucChua(): boolean
-  + layDanhSach(): List
-}
-
-class GhiDanh {
-  - ngayDangKy: Date
-  - trangThai: TrangThaiGhiDanh
-  - diemTongKet: Float
-  --
-  + capNhatTrangThai(): void
-  + nhapDiem(diem: Float): void
-}
-
-' ─── Quan hệ ───
-MonHoc "1" *-- "0..*" LopHocPhan   : chứa
-GiangVien "1" -- "0..*" LopHocPhan : phụ trách >
-SinhVien "1" -- "1..*" GhiDanh     : thực hiện >
-LopHocPhan "1" -- "0..*" GhiDanh   : có >
-GhiDanh ..> TrangThaiGhiDanh       : sử dụng
-
-@enduml
+    MonHoc "1" *-- "0..*" LopHocPhan : chứa
+    GiangVien "1" -- "0..*" LopHocPhan : phụ trách
+    SinhVien "1" -- "1..*" GhiDanh : thực hiện
+    LopHocPhan "1" -- "0..*" GhiDanh : có
+    GhiDanh ..> TrangThaiGhiDanh : sử dụng
+```
